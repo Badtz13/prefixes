@@ -1,0 +1,38 @@
+{
+	"schemaVersion": 1,
+	"id": "prefixes",
+	"version": "${version}",
+	"name": "prefixes",
+	"description": "prefixes for tools and weapons with a fun reforging mechanic",
+	"authors": [
+		"kamo.moe, chromadeline"
+	],
+	"contact": {
+		"homepage": "https://fabricmc.net/",
+		"sources": "https://github.com/FabricMC/fabric-example-mod"
+	},
+	"license": "CC0-1.0",
+	"icon": "assets/prefixes/icon.png",
+	"environment": "*",
+	"entrypoints": {
+		"main": [
+			"dev.badtz.prefixes.Prefixes"
+		],
+		"client": [
+			"dev.badtz.prefixes.client.PrefixesClient"
+		]
+	},
+	"mixins": [
+		"prefixes.mixins.json",
+		{
+			"config": "prefixes.client.mixins.json",
+			"environment": "client"
+		}
+	],
+	"depends": {
+		"fabricloader": ">=0.19.3",
+		"minecraft": "~26.1.2",
+		"java": ">=25",
+		"fabric-api": "*"
+	}
+}

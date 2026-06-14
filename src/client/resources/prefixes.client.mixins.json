@@ -1,0 +1,14 @@
+{
+	"required": true,
+	"package": "dev.badtz.prefixes.client.mixin",
+	"compatibilityLevel": "JAVA_25",
+	"client": [
+		"ItemInHandRendererMixin"
+	],
+	"injectors": {
+		"defaultRequire": 1
+	},
+	"overwrites": {
+		"requireAnnotations": true
+	}
+}

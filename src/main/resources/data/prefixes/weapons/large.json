@@ -1,0 +1,14 @@
+{
+    "weight": 10,
+    "display": {
+        "color": "blue",
+        "scale": 1.12
+    },
+    "modifiers": [
+        {
+            "attribute": "minecraft:entity_interaction_range",
+            "operation": "add_multiplied_base",
+            "amount": 0.12
+        }
+    ]
+}
