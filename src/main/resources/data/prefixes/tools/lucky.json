@@ -1,0 +1,16 @@
+{
+    "weight": 3,
+    "tier": 1,
+    "modifiers": [
+        {
+            "attribute": "minecraft:luck",
+            "operation": "add_value",
+            "amount": 1.0
+        },
+        {
+            "attribute": "minecraft:mining_efficiency",
+            "operation": "add_multiplied_base",
+            "amount": 0.05
+        }
+    ]
+}

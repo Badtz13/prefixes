@@ -1,16 +1,16 @@
 {
     "weight": 5,
-    "tier": 0,
+    "tier": 1,
     "modifiers": [
         {
             "attribute": "minecraft:attack_speed",
             "operation": "add_multiplied_base",
-            "amount": 0.15
+            "amount": 0.10
         },
         {
-            "attribute": "minecraft:attack_knockback",
-            "operation": "add_multiplied_base",
-            "amount": -0.10
+            "attribute": "minecraft:luck",
+            "operation": "add_value",
+            "amount": 1.0
         }
     ]
 }

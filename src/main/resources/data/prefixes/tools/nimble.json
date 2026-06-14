@@ -1,11 +1,11 @@
 {
-    "weight": 5,
+    "weight": 7,
     "tier": 1,
     "modifiers": [
         {
-            "attribute": "minecraft:entity_interaction_range",
+            "attribute": "minecraft:block_break_speed",
             "operation": "add_multiplied_base",
-            "amount": 0.18
+            "amount": 0.05
         }
     ]
 }

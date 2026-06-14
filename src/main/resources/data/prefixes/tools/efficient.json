@@ -1,16 +1,16 @@
 {
     "weight": 5,
-    "tier": 0,
+    "tier": 2,
     "modifiers": [
         {
-            "attribute": "minecraft:attack_speed",
+            "attribute": "minecraft:mining_efficiency",
             "operation": "add_multiplied_base",
             "amount": 0.15
         },
         {
-            "attribute": "minecraft:attack_knockback",
+            "attribute": "minecraft:attack_speed",
             "operation": "add_multiplied_base",
-            "amount": -0.10
+            "amount": 0.05
         }
     ]
 }
