@@ -1,6 +1,11 @@
 {
-    "prefixes.weapon.dull": "Dull",
+    "prefixes.weapon.legendary": "Legendary",
+    "prefixes.weapon.terrible": "Terrible",
     "prefixes.weapon.sharp": "Sharp",
+    "prefixes.weapon.pointy": "Pointy",
+    "prefixes.weapon.dull": "Dull",
     "prefixes.weapon.large": "Large",
-    "prefixes.weapon.small": "Small"
+    "prefixes.weapon.massive": "Massive",
+    "prefixes.weapon.small": "Small",
+    "prefixes.weapon.tiny": "Tiny"
 }

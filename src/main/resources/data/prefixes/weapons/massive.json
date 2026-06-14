@@ -1,14 +1,14 @@
 {
     "weight": 10,
     "display": {
-        "color": "yellow",
-        "scale": 1.12
+        "color": "aqua",
+        "scale": 1.18
     },
     "modifiers": [
         {
             "attribute": "minecraft:entity_interaction_range",
             "operation": "add_multiplied_base",
-            "amount": 0.12
+            "amount": 0.18
         }
     ]
 }

@@ -56,10 +56,11 @@ public final class PrefixApplier {
     private static void applyName(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
         Component baseName = stack.getItemName();
         Component prefixName = Component.translatable(prefix.translationKey());
-        ChatFormatting color = parseColor(prefix.color());
 
-        stack.set(DataComponents.CUSTOM_NAME, Component.empty().append(prefixName)
-                .append(Component.literal(" ")).append(baseName).withStyle(color));
+        stack.set(DataComponents.CUSTOM_NAME,
+                Component.empty().append(prefixName).append(Component.literal(" ")).append(baseName)
+                        .setStyle(net.minecraft.network.chat.Style.EMPTY
+                                .withColor(parseColor(prefix.color())).withItalic(false)));
     }
 
     private static void applyAttributeModifiers(ItemStack stack,

@@ -1,7 +1,7 @@
 {
     "weight": 10,
     "display": {
-        "color": "gray",
+        "color": "grey",
         "scale": 0.88
     },
     "modifiers": [

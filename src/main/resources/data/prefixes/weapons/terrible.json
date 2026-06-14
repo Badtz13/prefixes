@@ -1,0 +1,24 @@
+{
+    "weight": 10,
+    "display": {
+        "color": "dark_red",
+        "scale": 0.87
+    },
+    "modifiers": [
+        {
+            "attribute": "minecraft:attack_damage",
+            "operation": "add_multiplied_base",
+            "amount": -0.15
+        },
+        {
+            "attribute": "minecraft:entity_interaction_range",
+            "operation": "add_multiplied_base",
+            "amount": -0.13
+        },
+        {
+            "attribute": "minecraft:attack_knockback",
+            "operation": "add_multiplied_base",
+            "amount": -0.15
+        }
+    ]
+}
