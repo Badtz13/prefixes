@@ -14,6 +14,8 @@ import net.minecraft.ChatFormatting;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.player.Inventory;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.inventory.AnvilMenu;
@@ -98,7 +100,7 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
         ci.cancel();
     }
 
-    @Inject(method = "onTake", at = @At("HEAD"))
+    @Inject(method = "onTake", at = @At("HEAD"), cancellable = true)
     private void prefixes$emeraldRerollOnTake(Player player, ItemStack carried, CallbackInfo ci) {
         ItemStack left = this.inputSlots.getItem(0);
         ItemStack right = this.inputSlots.getItem(1);
@@ -118,7 +120,40 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
             carried.set(DataComponents.CUSTOM_NAME, playerName);
         }
 
-        this.repairItemCountCost = 1;
+        Identifier prefixId = carried.get(Prefixes.PREFIX);
+        PrefixManager.PrefixDefinition prefix =
+                prefixId == null ? null : PrefixManager.get(prefixId);
+        float pitch = prefix == null ? 1.0f : pitchForTier(prefix.tier());
+
+        if (!player.hasInfiniteMaterials()) {
+            player.giveExperienceLevels(-this.cost.get());
+        }
+
+        if (right.getCount() > 1) {
+            right.shrink(1);
+            this.inputSlots.setItem(1, right);
+        } else {
+            this.inputSlots.setItem(1, ItemStack.EMPTY);
+        }
+
+        this.cost.set(0);
+        this.inputSlots.setItem(0, ItemStack.EMPTY);
+
+        this.access.execute((level, pos) -> {
+            level.playSound(null, pos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, 1.0f, pitch);
+        });
+
+        ci.cancel();
+    }
+
+    private float pitchForTier(int tier) {
+        return switch (tier) {
+            case -2 -> 0.65f;
+            case -1 -> 0.8f;
+            case 1 -> 1.2f;
+            case 2 -> 1.4f;
+            default -> 1.0f;
+        };
     }
 
     private Component getPlayerCustomName(ItemStack stack) {
