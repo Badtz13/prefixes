@@ -32,10 +32,28 @@ public class ItemInHandRendererMixin {
             return;
         }
 
-        float scale = prefix.scale();
+        float scale = getPrefixScale(prefix);
 
         if (scale != 1.0f) {
             poseStack.scale(scale, scale, scale);
         }
+    }
+
+    private float getPrefixScale(PrefixManager.PrefixDefinition prefix) {
+        for (PrefixManager.PrefixModifier modifier : prefix.modifiers()) {
+            if (!modifier.attribute().equals("minecraft:entity_interaction_range")
+                    && !modifier.attribute().equals("minecraft:block_interaction_range")) {
+                continue;
+            }
+
+            return switch (modifier.operation()) {
+                case "add_multiplied_base", "add_multiplied_total" -> 1.0f
+                        + (float) modifier.amount();
+                case "add_value" -> 1.0f + (float) (modifier.amount() / 4.5);
+                default -> 1.0f;
+            };
+        }
+
+        return 1.0f;
     }
 }

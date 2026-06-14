@@ -1,9 +1,6 @@
 {
     "weight": 2,
-    "display": {
-        "color": "dark_red",
-        "scale": 0.87
-    },
+    "tier": -2,
     "modifiers": [
         {
             "attribute": "minecraft:attack_damage",

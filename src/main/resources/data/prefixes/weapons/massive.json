@@ -1,9 +1,6 @@
 {
     "weight": 3,
-    "display": {
-        "color": "aqua",
-        "scale": 1.18
-    },
+    "tier": 1,
     "modifiers": [
         {
             "attribute": "minecraft:entity_interaction_range",

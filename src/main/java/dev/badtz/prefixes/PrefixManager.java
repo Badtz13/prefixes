@@ -38,15 +38,15 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
 
         for (PrefixDefinition prefix : weapons.values()) {
             Prefixes.LOGGER.info(
-                    "Weapon prefix loaded: id={}, key={}, color={}, weight={}, modifiers={}",
-                    prefix.id(), prefix.translationKey(), prefix.color(), prefix.weight(),
+                    "Weapon prefix loaded: id={}, key={}, tier={}, weight={}, modifiers={}",
+                    prefix.id(), prefix.translationKey(), prefix.tier(), prefix.weight(),
                     prefix.modifiers().size());
         }
 
         for (PrefixDefinition prefix : tools.values()) {
             Prefixes.LOGGER.info(
-                    "Tool prefix loaded: id={}, key={}, color={}, weight={}, modifiers={}",
-                    prefix.id(), prefix.translationKey(), prefix.color(), prefix.weight(),
+                    "Tool prefix loaded: id={}, key={}, tier={}, weight={}, modifiers={}",
+                    prefix.id(), prefix.translationKey(), prefix.tier(), prefix.weight(),
                     prefix.modifiers().size());
         }
     }
@@ -118,15 +118,14 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
                                 Identifier.fromNamespaceAndPath(resourceId.getNamespace(), name);
 
                         int weight = json.has("weight") ? json.get("weight").getAsInt() : 10;
-                        String color = parseColor(json);
-                        float scale = parseScale(json);
+                        int tier = parseTier(json);
                         List<PrefixModifier> modifiers = parseModifiers(json);
 
                         String translationKey = "%s.%s.%s".formatted(Prefixes.MOD_ID,
                                 type.translationPart, name.replace('/', '.'));
 
-                        loaded.put(id, new PrefixDefinition(id, type, weight, translationKey, color,
-                                scale, modifiers));
+                        loaded.put(id, new PrefixDefinition(id, type, weight, translationKey, tier,
+                                modifiers));
                     } catch (Exception e) {
                         Prefixes.LOGGER.error("Failed to load prefix {}", resourceId, e);
                     }
@@ -135,32 +134,22 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
         return Map.copyOf(loaded);
     }
 
-    private static String parseColor(JsonObject json) {
-        if (!json.has("display") || !json.get("display").isJsonObject()) {
-            return "white";
+    private static int parseTier(JsonObject json) {
+        if (!json.has("tier")) {
+            return 0;
         }
 
-        JsonObject display = json.getAsJsonObject("display");
+        int tier = json.get("tier").getAsInt();
 
-        if (!display.has("color")) {
-            return "white";
+        if (tier < -2) {
+            return -2;
         }
 
-        return display.get("color").getAsString();
-    }
-
-    private static float parseScale(JsonObject json) {
-        if (!json.has("display") || !json.get("display").isJsonObject()) {
-            return 1.0f;
+        if (tier > 2) {
+            return 2;
         }
 
-        JsonObject display = json.getAsJsonObject("display");
-
-        if (!display.has("scale")) {
-            return 1.0f;
-        }
-
-        return display.get("scale").getAsFloat();
+        return tier;
     }
 
     private static List<PrefixModifier> parseModifiers(JsonObject json) {
@@ -199,7 +188,7 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
     }
 
     public record PrefixDefinition(Identifier id, PrefixType type, int weight,
-            String translationKey, String color, float scale, List<PrefixModifier> modifiers) {
+            String translationKey, int tier, List<PrefixModifier> modifiers) {
     }
 
     public record PrefixModifier(String attribute, String operation, double amount) {

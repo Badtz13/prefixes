@@ -1,9 +1,6 @@
 {
     "weight": 8,
-    "display": {
-        "color": "yellow",
-        "scale": 1.10
-    },
+    "tier": 0,
     "modifiers": [
         {
             "attribute": "minecraft:attack_speed",

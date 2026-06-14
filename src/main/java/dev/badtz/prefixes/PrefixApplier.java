@@ -3,7 +3,6 @@ package dev.badtz.prefixes;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import net.minecraft.ChatFormatting;
 import net.minecraft.core.Holder;
 import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -15,24 +14,21 @@ import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
+import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 
 public final class PrefixApplier {
     private PrefixApplier() {}
+
+    public static boolean isPrefixable(ItemStack stack) {
+        return isWeapon(stack) || isTool(stack);
+    }
 
     public static boolean canApply(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
         return switch (prefix.type()) {
             case WEAPON -> isWeapon(stack);
             case TOOL -> isTool(stack);
         };
-    }
-
-    public static boolean isPrefixable(ItemStack stack) {
-        return isWeapon(stack) || isTool(stack);
-    }
-
-    public static void remove(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
-        applyAttributeModifiers(stack, prefix, -1.0);
     }
 
     public static void apply(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
@@ -57,6 +53,10 @@ public final class PrefixApplier {
         applyAttributeModifiers(stack, prefix, 1.0);
     }
 
+    public static void remove(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
+        applyAttributeModifiers(stack, prefix, -1.0);
+    }
+
     public static boolean applyRandom(ItemStack stack, net.minecraft.util.RandomSource random) {
         PrefixManager.PrefixType type;
 
@@ -78,16 +78,6 @@ public final class PrefixApplier {
         return true;
     }
 
-    private static boolean hasPlayerCustomName(ItemStack stack,
-            PrefixManager.PrefixDefinition oldPrefix) {
-        Component customName = stack.get(DataComponents.CUSTOM_NAME);
-        if (customName == null) {
-            return false;
-        }
-        Component expectedName = createPrefixName(stack, oldPrefix);
-        return !customName.getString().equals(expectedName.getString());
-    }
-
     private static boolean isWeapon(ItemStack stack) {
         return stack.is(ItemTags.SWORDS) || stack.is(ItemTags.SPEARS) || stack.is(Items.MACE)
                 || stack.is(Items.TRIDENT);
@@ -98,9 +88,30 @@ public final class PrefixApplier {
                 || stack.is(ItemTags.HOES);
     }
 
-    private static void applyName(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
+    private static boolean hasPlayerCustomName(ItemStack stack,
+            PrefixManager.PrefixDefinition oldPrefix) {
+        Component customName = stack.get(DataComponents.CUSTOM_NAME);
 
+        if (customName == null) {
+            return false;
+        }
+
+        Component expectedName = createPrefixName(stack, oldPrefix);
+        return !customName.getString().equals(expectedName.getString());
+    }
+
+    private static void applyName(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
         stack.set(DataComponents.CUSTOM_NAME, createPrefixName(stack, prefix));
+    }
+
+    private static Component createPrefixName(ItemStack stack,
+            PrefixManager.PrefixDefinition prefix) {
+        Component baseName = stack.getItemName();
+        Component prefixName = Component.translatable(prefix.translationKey());
+
+        return Component.empty().append(prefixName).append(Component.literal(" ")).append(baseName)
+                .setStyle(net.minecraft.network.chat.Style.EMPTY
+                        .withColor(rarityForTier(prefix.tier()).color()).withItalic(false));
     }
 
     private static void applyAttributeModifiers(ItemStack stack,
@@ -184,23 +195,11 @@ public final class PrefixApplier {
         };
     }
 
-    private static Component createPrefixName(ItemStack stack,
-            PrefixManager.PrefixDefinition prefix) {
-        Component baseName = stack.getItemName();
-        Component prefixName = Component.translatable(prefix.translationKey());
-
-        return Component.empty().append(prefixName).append(Component.literal(" ")).append(baseName)
-                .setStyle(net.minecraft.network.chat.Style.EMPTY
-                        .withColor(parseColor(prefix.color())).withItalic(false));
-    }
-
-    private static ChatFormatting parseColor(String color) {
-        ChatFormatting formatting = ChatFormatting.getByName(color);
-
-        if (formatting == null || !formatting.isColor()) {
-            return ChatFormatting.WHITE;
-        }
-
-        return formatting;
+    private static Rarity rarityForTier(int tier) {
+        return switch (tier) {
+            case 1 -> Rarity.UNCOMMON;
+            case 2 -> Rarity.RARE;
+            default -> Rarity.COMMON;
+        };
     }
 }
