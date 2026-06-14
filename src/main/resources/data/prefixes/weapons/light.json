@@ -1,0 +1,19 @@
+{
+    "weight": 10,
+    "display": {
+        "color": "yellow",
+        "scale": 1.10
+    },
+    "modifiers": [
+        {
+            "attribute": "minecraft:attack_speed",
+            "operation": "add_multiplied_base",
+            "amount": 0.15
+        },
+        {
+            "attribute": "minecraft:attack_knockback",
+            "operation": "add_multiplied_base",
+            "amount": -0.10
+        }
+    ]
+}

@@ -7,5 +7,7 @@
     "prefixes.weapon.large": "Large",
     "prefixes.weapon.massive": "Massive",
     "prefixes.weapon.small": "Small",
-    "prefixes.weapon.tiny": "Tiny"
+    "prefixes.weapon.tiny": "Tiny",
+    "prefixes.weapon.light": "Light",
+    "prefixes.weapon.bulky": "Bulky"
 }
