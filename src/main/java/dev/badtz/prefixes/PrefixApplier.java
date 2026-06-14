@@ -38,9 +38,36 @@ public final class PrefixApplier {
             }
         }
 
+        boolean hadCustomName = stack.has(DataComponents.CUSTOM_NAME);
+
         stack.set(Prefixes.PREFIX, prefix.id());
-        applyName(stack, prefix);
+
+        if (!hadCustomName) {
+            applyName(stack, prefix);
+        }
+
         applyAttributeModifiers(stack, prefix, 1.0);
+    }
+
+    public static boolean applyRandom(ItemStack stack, net.minecraft.util.RandomSource random) {
+        PrefixManager.PrefixType type;
+
+        if (isWeapon(stack)) {
+            type = PrefixManager.PrefixType.WEAPON;
+        } else if (isTool(stack)) {
+            type = PrefixManager.PrefixType.TOOL;
+        } else {
+            return false;
+        }
+
+        PrefixManager.PrefixDefinition prefix = PrefixManager.getRandom(type, random);
+
+        if (prefix == null) {
+            return false;
+        }
+
+        apply(stack, prefix);
+        return true;
     }
 
     private static boolean isWeapon(ItemStack stack) {

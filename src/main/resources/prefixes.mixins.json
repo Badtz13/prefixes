@@ -2,7 +2,11 @@
 	"required": true,
 	"package": "dev.badtz.prefixes.mixin",
 	"compatibilityLevel": "JAVA_25",
-	"mixins": [],
+	"mixins": [
+		"ResultSlotMixin",
+		"MerchantResultSlotMixin",
+		"CrafterBlockMixin"
+	],
 	"injectors": {
 		"defaultRequire": 1
 	},

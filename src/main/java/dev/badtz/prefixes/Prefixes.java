@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import dev.badtz.prefixes.loot.PrefixLoot;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
@@ -30,11 +31,35 @@ public class Prefixes implements ModInitializer {
 	public void onInitialize() {
 		ResourceLoader.get(PackType.SERVER_DATA).registerReloadListener(id("prefix_loader"),
 				new PrefixManager());
+		PrefixLoot.initialize();
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
-			dispatcher
-					.register(Commands.literal("prefix")
-							.then(Commands.argument("id", StringArgumentType.greedyString())
+			dispatcher.register(
+					Commands.literal("prefix").then(Commands.literal("random").executes(context -> {
+						ServerPlayer player = context.getSource().getPlayerOrException();
+						ItemStack stack = player.getMainHandItem();
+
+						if (stack.isEmpty()) {
+							context.getSource()
+									.sendFailure(Component.literal("Hold an item first"));
+							return 0;
+						}
+
+						if (!PrefixApplier.applyRandom(stack, player.getRandom())) {
+							context.getSource().sendFailure(
+									Component.literal("No valid random prefix for this item"));
+							return 0;
+						}
+
+						Identifier prefixId = stack.get(PREFIX);
+						String message = prefixId == null ? "Applied random prefix"
+								: "Applied random prefix: " + prefixId;
+
+						context.getSource().sendSuccess(() -> Component.literal(message), true);
+
+						return 1;
+					})).then(
+							Commands.argument("id", StringArgumentType.greedyString())
 									.suggests((context, builder) -> SharedSuggestionProvider
 											.suggest(getPrefixSuggestions(), builder))
 									.executes(context -> {

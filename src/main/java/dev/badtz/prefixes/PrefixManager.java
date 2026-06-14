@@ -61,6 +61,38 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
         return tools.get(id);
     }
 
+    public static PrefixDefinition getRandom(PrefixType type,
+            net.minecraft.util.RandomSource random) {
+        Map<Identifier, PrefixDefinition> pool = switch (type) {
+            case WEAPON -> weapons;
+            case TOOL -> tools;
+        };
+
+        int totalWeight = 0;
+
+        for (PrefixDefinition prefix : pool.values()) {
+            totalWeight += Math.max(0, prefix.weight());
+        }
+
+        if (totalWeight <= 0) {
+            return null;
+        }
+
+        int roll = random.nextInt(totalWeight);
+
+        for (PrefixDefinition prefix : pool.values()) {
+            int weight = Math.max(0, prefix.weight());
+
+            if (roll < weight) {
+                return prefix;
+            }
+
+            roll -= weight;
+        }
+
+        return null;
+    }
+
     public static Map<Identifier, PrefixDefinition> weapons() {
         return weapons;
     }
