@@ -4,6 +4,7 @@ import java.util.stream.Stream;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import com.mojang.brigadier.arguments.StringArgumentType;
+import com.mojang.serialization.Codec;
 import dev.badtz.prefixes.loot.PrefixLoot;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
@@ -26,6 +27,10 @@ public class Prefixes implements ModInitializer {
 	public static final DataComponentType<Identifier> PREFIX =
 			Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, id("prefix"),
 					DataComponentType.<Identifier>builder().persistent(Identifier.CODEC).build());
+
+	public static final DataComponentType<Boolean> PREFIX_NAME =
+			Registry.register(BuiltInRegistries.DATA_COMPONENT_TYPE, id("prefix_name"),
+					DataComponentType.<Boolean>builder().persistent(Codec.BOOL).build());
 
 	@Override
 	public void onInitialize() {

@@ -29,21 +29,22 @@ public final class PrefixApplier {
 
     public static void apply(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
         Identifier oldPrefixId = stack.get(Prefixes.PREFIX);
+        boolean preserveCustomName = false;
 
         if (oldPrefixId != null) {
             PrefixManager.PrefixDefinition oldPrefix = PrefixManager.get(oldPrefixId);
 
             if (oldPrefix != null) {
+                preserveCustomName = hasPlayerCustomName(stack, oldPrefix);
                 applyAttributeModifiers(stack, oldPrefix, -1.0);
             }
         }
 
-        boolean hadCustomName = stack.has(DataComponents.CUSTOM_NAME);
-
         stack.set(Prefixes.PREFIX, prefix.id());
 
-        if (!hadCustomName) {
+        if (!preserveCustomName) {
             applyName(stack, prefix);
+            stack.set(Prefixes.PREFIX_NAME, true);
         }
 
         applyAttributeModifiers(stack, prefix, 1.0);
@@ -70,6 +71,16 @@ public final class PrefixApplier {
         return true;
     }
 
+    private static boolean hasPlayerCustomName(ItemStack stack,
+            PrefixManager.PrefixDefinition oldPrefix) {
+        Component customName = stack.get(DataComponents.CUSTOM_NAME);
+        if (customName == null) {
+            return false;
+        }
+        Component expectedName = createPrefixName(stack, oldPrefix);
+        return !customName.getString().equals(expectedName.getString());
+    }
+
     private static boolean isWeapon(ItemStack stack) {
         return stack.is(ItemTags.SWORDS) || stack.is(ItemTags.SPEARS) || stack.is(Items.MACE)
                 || stack.is(Items.TRIDENT);
@@ -81,13 +92,8 @@ public final class PrefixApplier {
     }
 
     private static void applyName(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
-        Component baseName = stack.getItemName();
-        Component prefixName = Component.translatable(prefix.translationKey());
 
-        stack.set(DataComponents.CUSTOM_NAME,
-                Component.empty().append(prefixName).append(Component.literal(" ")).append(baseName)
-                        .setStyle(net.minecraft.network.chat.Style.EMPTY
-                                .withColor(parseColor(prefix.color())).withItalic(false)));
+        stack.set(DataComponents.CUSTOM_NAME, createPrefixName(stack, prefix));
     }
 
     private static void applyAttributeModifiers(ItemStack stack,
@@ -169,6 +175,16 @@ public final class PrefixApplier {
             case "add_multiplied_total" -> AttributeModifier.Operation.ADD_MULTIPLIED_TOTAL;
             default -> throw new IllegalArgumentException("Unknown operation: " + operation);
         };
+    }
+
+    private static Component createPrefixName(ItemStack stack,
+            PrefixManager.PrefixDefinition prefix) {
+        Component baseName = stack.getItemName();
+        Component prefixName = Component.translatable(prefix.translationKey());
+
+        return Component.empty().append(prefixName).append(Component.literal(" ")).append(baseName)
+                .setStyle(net.minecraft.network.chat.Style.EMPTY
+                        .withColor(parseColor(prefix.color())).withItalic(false));
     }
 
     private static ChatFormatting parseColor(String color) {
