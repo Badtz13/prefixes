@@ -27,6 +27,14 @@ public final class PrefixApplier {
         };
     }
 
+    public static boolean isPrefixable(ItemStack stack) {
+        return isWeapon(stack) || isTool(stack);
+    }
+
+    public static void remove(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
+        applyAttributeModifiers(stack, prefix, -1.0);
+    }
+
     public static void apply(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
         Identifier oldPrefixId = stack.get(Prefixes.PREFIX);
         boolean preserveCustomName = false;
@@ -44,7 +52,6 @@ public final class PrefixApplier {
 
         if (!preserveCustomName) {
             applyName(stack, prefix);
-            stack.set(Prefixes.PREFIX_NAME, true);
         }
 
         applyAttributeModifiers(stack, prefix, 1.0);
