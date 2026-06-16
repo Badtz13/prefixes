@@ -15,8 +15,9 @@ import net.minecraft.world.level.block.Blocks;
 import net.minecraft.world.level.block.state.BlockBehaviour;
 
 public final class ModBlocks {
-    public static final Block REFORGING_TABLE = register("reforging_table", Block::new,
-            BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL), true);
+    public static final Block REFORGING_TABLE =
+            register("reforging_table", ReforgingTableBlock::new,
+                    BlockBehaviour.Properties.ofFullCopy(Blocks.ANVIL).noOcclusion(), true);
 
     private ModBlocks() {}
 
