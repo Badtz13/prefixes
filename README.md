@@ -1,4 +1,5 @@
 # prefixes
+Simple terraria style prefix system / reforging table using vanilla attributes. 
 
 ## Setup
 
