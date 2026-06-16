@@ -1,6 +1,7 @@
 plugins {
 	id 'net.fabricmc.fabric-loom' version "${loom_version}"
 	id 'maven-publish'
+    id "com.modrinth.minotaur" version "2.+"
 }
 
 version = project.mod_version
@@ -37,6 +38,7 @@ dependencies {
 	
 }
 
+
 processResources {
 	def version = project.version
 	inputs.property "version", version
@@ -70,6 +72,7 @@ jar {
 	}
 }
 
+
 // configure the maven publication
 publishing {
 	publications {
@@ -85,4 +88,19 @@ publishing {
 		// The repositories here will be used for publishing your artifact, not for
 		// retrieving dependencies.
 	}
+}
+
+modrinth {
+   	token = System.getenv("MODRINTH_TOKEN")
+    projectId = "prefixes"
+    versionNumber = project.version.toString()
+    versionName = "Prefixes ${project.version}"
+    versionType = "alpha"
+    uploadFile = jar
+    gameVersions = [project.minecraft_version]
+    loaders = ["fabric"]
+
+    dependencies {
+        required.project "fabric-api"
+    }
 }
