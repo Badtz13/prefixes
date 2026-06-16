@@ -32,6 +32,7 @@ public class Prefixes implements ModInitializer {
 		ResourceLoader.get(PackType.SERVER_DATA).registerReloadListener(id("prefix_loader"),
 				new PrefixManager());
 		PrefixLoot.initialize();
+		ModBlocks.initialize();
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			dispatcher.register(

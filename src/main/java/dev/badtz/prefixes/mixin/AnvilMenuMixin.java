@@ -91,7 +91,7 @@ public abstract class AnvilMenuMixin extends ItemCombinerMenu {
                         .withStyle(style -> style.withItalic(false)));
 
         result.set(DataComponents.LORE, new ItemLore(List.of(Component.literal("(Random Prefix!)")
-                .withStyle(style -> style.withColor(ChatFormatting.RED).withItalic(false)))));
+                .withStyle(style -> style.withColor(ChatFormatting.DARK_GRAY).withItalic(false)))));
 
         this.repairItemCountCost = 1;
         this.resultSlots.setItem(0, result);

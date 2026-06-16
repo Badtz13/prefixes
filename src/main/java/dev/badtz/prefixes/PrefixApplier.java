@@ -16,6 +16,7 @@ import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Items;
 import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
+import net.minecraft.world.item.component.ItemLore;
 
 public final class PrefixApplier {
     private PrefixApplier() {}
@@ -50,11 +51,13 @@ public final class PrefixApplier {
             applyName(stack, prefix);
         }
 
+        applyTierLore(stack, prefix);
         applyAttributeModifiers(stack, prefix, 1.0);
     }
 
     public static void remove(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
         applyAttributeModifiers(stack, prefix, -1.0);
+        stack.remove(DataComponents.LORE);
     }
 
     public static boolean applyRandom(ItemStack stack, net.minecraft.util.RandomSource random) {
@@ -112,6 +115,22 @@ public final class PrefixApplier {
         return Component.empty().append(prefixName).append(Component.literal(" ")).append(baseName)
                 .setStyle(net.minecraft.network.chat.Style.EMPTY
                         .withColor(rarityForTier(prefix.tier()).color()).withItalic(false));
+    }
+
+    private static void applyTierLore(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
+        stack.set(DataComponents.LORE, new ItemLore(
+                List.of(Component.literal(starsForTier(prefix.tier())).withStyle(style -> style
+                        .withColor(rarityForTier(prefix.tier()).color()).withItalic(false)))));
+    }
+
+    private static String starsForTier(int tier) {
+        return switch (tier) {
+            case -2 -> "★☆☆☆☆";
+            case -1 -> "★★☆☆☆";
+            case 1 -> "★★★★☆";
+            case 2 -> "★★★★★";
+            default -> "★★★☆☆";
+        };
     }
 
     private static void applyAttributeModifiers(ItemStack stack,

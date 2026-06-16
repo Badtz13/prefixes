@@ -1,0 +1,17 @@
+{
+    "type": "minecraft:crafting_shaped",
+    "pattern": [
+        "ABA",
+        "CDC"
+    ],
+    "key": {
+        "A": "minecraft:bookshelf",
+        "B": "minecraft:red_wool",
+        "C": "#minecraft:planks",
+        "D": "minecraft:anvil"
+    },
+    "result": {
+        "id": "prefixes:reforging_table",
+        "count": 1
+    }
+}
