@@ -8,13 +8,10 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
-import net.minecraft.tags.ItemTags;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
 import net.minecraft.world.item.ItemStack;
-import net.minecraft.world.item.Items;
-import net.minecraft.world.item.Rarity;
 import net.minecraft.world.item.component.ItemAttributeModifiers;
 import net.minecraft.world.item.component.ItemLore;
 
@@ -22,13 +19,13 @@ public final class PrefixApplier {
     private PrefixApplier() {}
 
     public static boolean isPrefixable(ItemStack stack) {
-        return isWeapon(stack) || isTool(stack);
+        return PrefixTags.isWeapon(stack) || PrefixTags.isTool(stack);
     }
 
     public static boolean canApply(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
         return switch (prefix.type()) {
-            case WEAPON -> isWeapon(stack);
-            case TOOL -> isTool(stack);
+            case WEAPON -> PrefixTags.isWeapon(stack);
+            case TOOL -> PrefixTags.isTool(stack);
         };
     }
 
@@ -63,9 +60,9 @@ public final class PrefixApplier {
     public static boolean applyRandom(ItemStack stack, net.minecraft.util.RandomSource random) {
         PrefixManager.PrefixType type;
 
-        if (isWeapon(stack)) {
+        if (PrefixTags.isWeapon(stack)) {
             type = PrefixManager.PrefixType.WEAPON;
-        } else if (isTool(stack)) {
+        } else if (PrefixTags.isTool(stack)) {
             type = PrefixManager.PrefixType.TOOL;
         } else {
             return false;
@@ -79,16 +76,6 @@ public final class PrefixApplier {
 
         apply(stack, prefix);
         return true;
-    }
-
-    private static boolean isWeapon(ItemStack stack) {
-        return stack.is(ItemTags.SWORDS) || stack.is(ItemTags.SPEARS) || stack.is(Items.MACE)
-                || stack.is(Items.TRIDENT);
-    }
-
-    private static boolean isTool(ItemStack stack) {
-        return stack.is(ItemTags.PICKAXES) || stack.is(ItemTags.AXES) || stack.is(ItemTags.SHOVELS)
-                || stack.is(ItemTags.HOES);
     }
 
     private static boolean hasPlayerCustomName(ItemStack stack,
@@ -114,23 +101,16 @@ public final class PrefixApplier {
 
         return Component.empty().append(prefixName).append(Component.literal(" ")).append(baseName)
                 .setStyle(net.minecraft.network.chat.Style.EMPTY
-                        .withColor(rarityForTier(prefix.tier()).color()).withItalic(false));
+                        .withColor(Prefixes.rarityForTier(prefix.tier()).color())
+                        .withItalic(false));
     }
 
     private static void applyTierLore(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
-        stack.set(DataComponents.LORE, new ItemLore(
-                List.of(Component.literal(starsForTier(prefix.tier())).withStyle(style -> style
-                        .withColor(rarityForTier(prefix.tier()).color()).withItalic(false)))));
-    }
-
-    private static String starsForTier(int tier) {
-        return switch (tier) {
-            case -2 -> "★☆☆☆☆";
-            case -1 -> "★★☆☆☆";
-            case 1 -> "★★★★☆";
-            case 2 -> "★★★★★";
-            default -> "★★★☆☆";
-        };
+        stack.set(DataComponents.LORE,
+                new ItemLore(List.of(Component.literal(Prefixes.starsForTier(prefix.tier()))
+                        .withStyle(style -> style
+                                .withColor(Prefixes.rarityForTier(prefix.tier()).color())
+                                .withItalic(false)))));
     }
 
     private static void applyAttributeModifiers(ItemStack stack,
@@ -214,11 +194,5 @@ public final class PrefixApplier {
         };
     }
 
-    private static Rarity rarityForTier(int tier) {
-        return switch (tier) {
-            case 1 -> Rarity.UNCOMMON;
-            case 2 -> Rarity.RARE;
-            default -> Rarity.COMMON;
-        };
-    }
+
 }

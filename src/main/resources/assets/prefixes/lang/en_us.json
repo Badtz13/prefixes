@@ -25,5 +25,7 @@
     "prefixes.tool.nimble": "Nimble",
     "prefixes.tool.quick": "Quick",
     "prefixes.tool.slow": "Slow",
-    "prefixes.tool.sluggish": "Sluggish"
+    "prefixes.tool.sluggish": "Sluggish",
+    "tag.item.prefixes.weapons": "Prefixable Weapons",
+    "tag.item.prefixes.tools": "Prefixable Tools"
 }

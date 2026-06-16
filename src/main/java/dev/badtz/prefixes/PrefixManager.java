@@ -3,6 +3,7 @@ package dev.badtz.prefixes;
 import java.io.InputStreamReader;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
@@ -13,6 +14,8 @@ import net.fabricmc.fabric.api.resource.v1.reloader.SimpleReloadListener;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.packs.resources.PreparableReloadListener;
 import net.minecraft.server.packs.resources.ResourceManager;
+import net.minecraft.util.RandomSource;
+import net.minecraft.world.item.ItemStack;
 
 public final class PrefixManager extends SimpleReloadListener<PrefixManager.PreparedPrefixes> {
     private static final Gson GSON = new Gson();
@@ -61,26 +64,46 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
         return tools.get(id);
     }
 
-    public static PrefixDefinition getRandom(PrefixType type,
-            net.minecraft.util.RandomSource random) {
+    public static PrefixDefinition getRandom(PrefixType type, RandomSource random) {
         Map<Identifier, PrefixDefinition> pool = switch (type) {
             case WEAPON -> weapons;
             case TOOL -> tools;
         };
 
+        return getWeightedRandom(new ArrayList<>(pool.values()), random);
+    }
+
+    public static PrefixDefinition getRandomApplicablePrefix(ItemStack stack, RandomSource random) {
+        if (PrefixTags.isWeapon(stack)) {
+            return getRandom(PrefixType.WEAPON, random);
+        }
+
+        if (PrefixTags.isTool(stack)) {
+            return getRandom(PrefixType.TOOL, random);
+        }
+
+        return null;
+    }
+
+    private static PrefixDefinition getWeightedRandom(List<PrefixDefinition> pool,
+            RandomSource random) {
+        if (pool.isEmpty()) {
+            return null;
+        }
+
         int totalWeight = 0;
 
-        for (PrefixDefinition prefix : pool.values()) {
+        for (PrefixDefinition prefix : pool) {
             totalWeight += Math.max(0, prefix.weight());
         }
 
         if (totalWeight <= 0) {
-            return null;
+            return pool.get(random.nextInt(pool.size()));
         }
 
         int roll = random.nextInt(totalWeight);
 
-        for (PrefixDefinition prefix : pool.values()) {
+        for (PrefixDefinition prefix : pool) {
             int weight = Math.max(0, prefix.weight());
 
             if (roll < weight) {
@@ -90,7 +113,7 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
             roll -= weight;
         }
 
-        return null;
+        return pool.getLast();
     }
 
     public static Map<Identifier, PrefixDefinition> weapons() {
@@ -131,7 +154,7 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
                     }
                 });
 
-        return Map.copyOf(loaded);
+        return Collections.unmodifiableMap(loaded);
     }
 
     private static int parseTier(JsonObject json) {

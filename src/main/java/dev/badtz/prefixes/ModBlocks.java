@@ -24,9 +24,9 @@ public final class ModBlocks {
     private static Block register(String name,
             Function<BlockBehaviour.Properties, Block> blockFactory,
             BlockBehaviour.Properties properties, boolean shouldRegisterItem) {
-
         ResourceKey<Block> blockKey = keyOfBlock(name);
-        Block block = blockFactory.apply(properties.setId(blockKey));
+        Block block = Registry.register(BuiltInRegistries.BLOCK, blockKey,
+                blockFactory.apply(properties.setId(blockKey)));
 
         if (shouldRegisterItem) {
             ResourceKey<Item> itemKey = keyOfItem(name);
@@ -35,7 +35,7 @@ public final class ModBlocks {
             Registry.register(BuiltInRegistries.ITEM, itemKey, blockItem);
         }
 
-        return Registry.register(BuiltInRegistries.BLOCK, blockKey, block);
+        return block;
     }
 
     private static ResourceKey<Block> keyOfBlock(String name) {
@@ -49,9 +49,7 @@ public final class ModBlocks {
     }
 
     public static void initialize() {
-        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.BUILDING_BLOCKS)
-                .register((creativeTab) -> {
-                    creativeTab.accept(ModBlocks.REFORGING_TABLE.asItem());
-                });
+        CreativeModeTabEvents.modifyOutputEvent(CreativeModeTabs.FUNCTIONAL_BLOCKS)
+                .register(creativeTab -> creativeTab.accept(ModBlocks.REFORGING_TABLE.asItem()));
     }
 }

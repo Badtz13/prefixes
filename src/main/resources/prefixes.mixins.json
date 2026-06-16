@@ -5,8 +5,7 @@
 	"mixins": [
 		"ResultSlotMixin",
 		"MerchantResultSlotMixin",
-		"CrafterBlockMixin",
-		"AnvilMenuMixin"
+		"CrafterBlockMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1

@@ -10,6 +10,7 @@ import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
+import net.minecraft.core.BlockPos;
 import net.minecraft.core.Registry;
 import net.minecraft.core.component.DataComponentType;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -17,7 +18,11 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.Rarity;
+import net.minecraft.world.level.Level;
 
 public class Prefixes implements ModInitializer {
 	public static final String MOD_ID = "prefixes";
@@ -147,5 +152,47 @@ public class Prefixes implements ModInitializer {
 			case WEAPON -> "weapons";
 			case TOOL -> "tools";
 		};
+	}
+
+	public static String starsForTier(int tier) {
+		return switch (tier) {
+			case 2 -> "★★★★★";
+			case 1 -> "★★★★☆";
+			case 0 -> "★★★☆☆";
+			case -1 -> "★★☆☆☆";
+			case -2 -> "★☆☆☆☆";
+			default -> "★★★☆☆";
+		};
+	}
+
+	public static Rarity rarityForTier(int tier) {
+		return switch (tier) {
+			case 1 -> Rarity.UNCOMMON;
+			case 2 -> Rarity.RARE;
+			default -> Rarity.COMMON;
+		};
+	}
+
+	public static void playReforgeSound(Level level, BlockPos pos,
+			PrefixManager.PrefixDefinition prefix) {
+		float pitch = switch (prefix.tier()) {
+			case 2 -> 1.35f;
+			case 1 -> 1.15f;
+			case 0 -> 1.0f;
+			case -1 -> 0.8f;
+			case -2 -> 0.65f;
+			default -> 1.0f;
+		};
+
+		float volume = switch (prefix.tier()) {
+			case 2 -> 1.2f;
+			case 1 -> 1.0f;
+			case 0 -> 0.9f;
+			case -1 -> 0.8f;
+			case -2 -> 0.7f;
+			default -> 0.9f;
+		};
+
+		level.playSound(null, pos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, volume, pitch);
 	}
 }
