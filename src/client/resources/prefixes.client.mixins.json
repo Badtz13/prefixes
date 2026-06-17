@@ -3,7 +3,8 @@
 	"package": "dev.badtz.prefixes.client.mixin",
 	"compatibilityLevel": "JAVA_25",
 	"client": [
-		"ItemInHandRendererMixin"
+		"ItemModelResolverMixin",
+		"ItemStackRenderStateMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
