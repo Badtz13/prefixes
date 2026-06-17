@@ -1,4 +1,5 @@
 {
+	"sound.prefixes.reforge": "Reforging Item",
     "block.prefixes.reforging_table": "Reforging Table",
     "stat.prefixes.items_reforged": "Items Reforged",
     "tag.item.prefixes.weapons": "Prefixable Weapons",
