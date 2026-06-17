@@ -2,6 +2,7 @@ package dev.badtz.prefixes;
 
 import net.minecraft.core.BlockPos;
 import net.minecraft.network.chat.Component;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.InteractionHand;
 import net.minecraft.world.InteractionResult;
 import net.minecraft.world.entity.player.Player;
@@ -59,7 +60,7 @@ public class ReforgingTableBlock extends Block {
             return InteractionResult.FAIL;
         }
 
-        PrefixApplier.apply(stack, prefix);
+        PrefixApplier.apply(stack, prefix, (ServerPlayer) player);
         Prefixes.playReforgeSound(level, pos, prefix);
         player.awardStat(PrefixStats.ITEMS_REFORGED);
 

@@ -3,6 +3,8 @@
     "stat.prefixes.items_reforged": "Items Reforged",
     "tag.item.prefixes.weapons": "Prefixable Weapons",
     "tag.item.prefixes.tools": "Prefixable Tools",
+    "advancements.prefixes.find_five_star.title": "Five-Star Find",
+    "advancements.prefixes.find_five_star.description": "Obtain a five-star item prefix.",
     "prefixes.weapon.legendary": "Legendary",
     "prefixes.weapon.savage": "Savage",
     "prefixes.weapon.dangerous": "Dangerous",

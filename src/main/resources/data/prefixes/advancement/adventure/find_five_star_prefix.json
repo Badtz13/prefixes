@@ -1,0 +1,23 @@
+{
+    "parent": "minecraft:adventure/root",
+    "display": {
+        "icon": {
+            "id": "minecraft:nether_star"
+        },
+        "title": {
+            "translate": "advancements.prefixes.find_five_star.title"
+        },
+        "description": {
+            "translate": "advancements.prefixes.find_five_star.description"
+        },
+        "frame": "challenge",
+        "show_toast": true,
+        "announce_to_chat": true,
+        "hidden": false
+    },
+    "criteria": {
+        "found": {
+            "trigger": "minecraft:impossible"
+        }
+    }
+}

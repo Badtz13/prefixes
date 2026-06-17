@@ -8,6 +8,7 @@ import dev.badtz.prefixes.loot.PrefixLoot;
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.command.v2.CommandRegistrationCallback;
 import net.fabricmc.fabric.api.resource.v1.ResourceLoader;
+import net.minecraft.advancements.AdvancementHolder;
 import net.minecraft.commands.Commands;
 import net.minecraft.commands.SharedSuggestionProvider;
 import net.minecraft.core.BlockPos;
@@ -195,5 +196,19 @@ public class Prefixes implements ModInitializer {
 		};
 
 		level.playSound(null, pos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, volume, pitch);
+	}
+
+	public static void awardFiveStarAdvancement(ServerPlayer player,
+			PrefixManager.PrefixDefinition prefix) {
+		if (player == null || prefix.tier() < 2) {
+			return;
+		}
+
+		AdvancementHolder advancement = player.level().getServer().getAdvancements()
+				.get(id("adventure/find_five_star_prefix"));
+
+		if (advancement != null) {
+			player.getAdvancements().award(advancement, "found");
+		}
 	}
 }

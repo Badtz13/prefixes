@@ -8,6 +8,7 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -30,6 +31,11 @@ public final class PrefixApplier {
     }
 
     public static void apply(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
+        apply(stack, prefix, null);
+    }
+
+    public static void apply(ItemStack stack, PrefixManager.PrefixDefinition prefix,
+            ServerPlayer player) {
         Identifier oldPrefixId = stack.get(Prefixes.PREFIX);
         boolean preserveCustomName = false;
 
@@ -50,6 +56,7 @@ public final class PrefixApplier {
 
         applyTierLore(stack, prefix);
         applyAttributeModifiers(stack, prefix, 1.0);
+        Prefixes.awardFiveStarAdvancement(player, prefix);
     }
 
     public static void remove(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
