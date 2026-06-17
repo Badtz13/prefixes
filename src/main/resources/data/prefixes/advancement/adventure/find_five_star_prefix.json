@@ -2,7 +2,7 @@
     "parent": "minecraft:adventure/root",
     "display": {
         "icon": {
-            "id": "minecraft:nether_star"
+            "id": "prefixes:reforging_table"
         },
         "title": {
             "translate": "advancements.prefixes.find_five_star.title"
