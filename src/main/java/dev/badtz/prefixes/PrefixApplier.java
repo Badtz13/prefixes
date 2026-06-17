@@ -44,10 +44,10 @@ public final class PrefixApplier {
 
             if (oldPrefix != null) {
                 preserveCustomName = hasPlayerCustomName(stack, oldPrefix);
-                applyAttributeModifiers(stack, oldPrefix, -1.0);
             }
         }
 
+        removePrefixAttributeModifiers(stack);
         stack.set(Prefixes.PREFIX, prefix.id());
 
         if (!preserveCustomName) {
@@ -55,12 +55,13 @@ public final class PrefixApplier {
         }
 
         applyTierLore(stack, prefix);
-        applyAttributeModifiers(stack, prefix, 1.0);
+        addPrefixAttributeModifiers(stack, prefix);
         Prefixes.awardFiveStarAdvancement(player, prefix);
     }
 
     public static void remove(ItemStack stack, PrefixManager.PrefixDefinition prefix) {
-        applyAttributeModifiers(stack, prefix, -1.0);
+        removePrefixAttributeModifiers(stack);
+        stack.remove(Prefixes.PREFIX);
         stack.remove(DataComponents.LORE);
     }
 
@@ -120,10 +121,26 @@ public final class PrefixApplier {
                                 .withItalic(false)))));
     }
 
-    private static void applyAttributeModifiers(ItemStack stack,
-            PrefixManager.PrefixDefinition prefix, double multiplier) {
+    private static void removePrefixAttributeModifiers(ItemStack stack) {
         ItemAttributeModifiers existing = stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,
                 ItemAttributeModifiers.EMPTY);
+
+        ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
+
+        for (ItemAttributeModifiers.Entry entry : existing.modifiers()) {
+            if (!entry.modifier().id().toString().startsWith("prefixes:prefix/")) {
+                builder.add(entry.attribute(), entry.modifier(), entry.slot());
+            }
+        }
+
+        stack.set(DataComponents.ATTRIBUTE_MODIFIERS, builder.build());
+    }
+
+    private static void addPrefixAttributeModifiers(ItemStack stack,
+            PrefixManager.PrefixDefinition prefix) {
+        ItemAttributeModifiers existing = stack.getOrDefault(DataComponents.ATTRIBUTE_MODIFIERS,
+                ItemAttributeModifiers.EMPTY);
+
         List<ItemAttributeModifiers.Entry> entries = new ArrayList<>(existing.modifiers());
 
         for (PrefixManager.PrefixModifier modifier : prefix.modifiers()) {
@@ -144,43 +161,14 @@ public final class PrefixApplier {
                 continue;
             }
 
-            boolean merged = false;
+            Identifier modifierId = Prefixes.id("prefix/" + prefix.id().getNamespace() + "/"
+                    + prefix.id().getPath() + "/" + attributeId.getPath());
 
-            for (int i = 0; i < entries.size(); i++) {
-                ItemAttributeModifiers.Entry entry = entries.get(i);
-
-                if (!entry.attribute().equals(attribute.get())) {
-                    continue;
-                }
-
-                if (entry.slot() != EquipmentSlotGroup.MAINHAND) {
-                    continue;
-                }
-
-                AttributeModifier old = entry.modifier();
-
-                if (old.operation() != parseOperation(modifier.operation())) {
-                    continue;
-                }
-
-                AttributeModifier replacement = new AttributeModifier(old.id(),
-                        old.amount() + modifier.amount() * multiplier, old.operation());
-
-                entries.set(i, new ItemAttributeModifiers.Entry(entry.attribute(), replacement,
-                        entry.slot()));
-                merged = true;
-                break;
-            }
-
-            if (!merged && multiplier > 0.0) {
-                Identifier modifierId = Prefixes.id("prefix/" + prefix.id().getNamespace() + "/"
-                        + prefix.id().getPath() + "/" + attributeId.getPath());
-
-                entries.add(new ItemAttributeModifiers.Entry(attribute.get(),
-                        new AttributeModifier(modifierId, modifier.amount(),
-                                parseOperation(modifier.operation())),
-                        EquipmentSlotGroup.MAINHAND));
-            }
+            entries.add(
+                    new ItemAttributeModifiers.Entry(attribute.get(),
+                            new AttributeModifier(modifierId, modifier.amount(),
+                                    parseOperation(modifier.operation())),
+                            EquipmentSlotGroup.MAINHAND));
         }
 
         ItemAttributeModifiers.Builder builder = ItemAttributeModifiers.builder();
@@ -200,6 +188,4 @@ public final class PrefixApplier {
             default -> throw new IllegalArgumentException("Unknown operation: " + operation);
         };
     }
-
-
 }

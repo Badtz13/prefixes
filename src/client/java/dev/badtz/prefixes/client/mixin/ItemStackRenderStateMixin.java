@@ -40,7 +40,7 @@ public class ItemStackRenderStateMixin implements PrefixScaledRenderState {
             int lightCoords, int overlayCoords, int outlineColor, CallbackInfo ci) {
         poseStack.pushPose();
 
-        if (this.displayContext != ItemDisplayContext.GUI && this.prefixes$scale != 1.0F) {
+        if (this.prefixes$scale != 1.0F) {
             poseStack.scale(this.prefixes$scale, this.prefixes$scale, this.prefixes$scale);
         }
     }

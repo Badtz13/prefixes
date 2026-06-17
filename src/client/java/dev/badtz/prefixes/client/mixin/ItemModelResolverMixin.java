@@ -22,7 +22,15 @@ public class ItemModelResolverMixin {
     private void prefixes$setPrefixScale(ItemStackRenderState output, ItemStack item,
             ItemDisplayContext displayContext, Level level, ItemOwner owner, int seed,
             CallbackInfo ci) {
-        ((PrefixScaledRenderState) output).prefixes$setScale(prefixes$getScale(item));
+        Identifier prefixId = item.get(Prefixes.PREFIX);
+        float scale = prefixes$getScale(item);
+
+        ((PrefixScaledRenderState) output).prefixes$setScale(scale);
+
+        if (prefixId != null) {
+            output.appendModelIdentityElement(prefixId);
+            output.appendModelIdentityElement(scale);
+        }
     }
 
     private static float prefixes$getScale(ItemStack stack) {
@@ -30,6 +38,10 @@ public class ItemModelResolverMixin {
 
         if (prefixId == null) {
             return 1.0F;
+        }
+
+        if (prefixId.toString().equals("prefixes:heavy")) {
+            return 1.5F;
         }
 
         PrefixManager.PrefixDefinition prefix = PrefixManager.get(prefixId);
