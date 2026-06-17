@@ -19,7 +19,6 @@ import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.packs.PackType;
-import net.minecraft.sounds.SoundEvents;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.item.Rarity;
@@ -40,6 +39,7 @@ public class Prefixes implements ModInitializer {
 		PrefixLoot.initialize();
 		ModBlocks.initialize();
 		PrefixStats.initialize();
+		PrefixSounds.initialize();
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			dispatcher.register(
@@ -195,7 +195,7 @@ public class Prefixes implements ModInitializer {
 			default -> 0.9f;
 		};
 
-		level.playSound(null, pos, SoundEvents.ANVIL_USE, SoundSource.BLOCKS, volume, pitch);
+		level.playSound(null, pos, PrefixSounds.REFORGE, SoundSource.BLOCKS, volume, pitch);
 	}
 
 	public static void awardFiveStarAdvancement(ServerPlayer player,
