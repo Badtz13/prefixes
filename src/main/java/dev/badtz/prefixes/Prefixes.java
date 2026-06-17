@@ -38,6 +38,7 @@ public class Prefixes implements ModInitializer {
 				new PrefixManager());
 		PrefixLoot.initialize();
 		ModBlocks.initialize();
+		PrefixStats.initialize();
 
 		CommandRegistrationCallback.EVENT.register((dispatcher, registryAccess, environment) -> {
 			dispatcher.register(

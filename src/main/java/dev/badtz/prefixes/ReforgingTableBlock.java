@@ -61,6 +61,7 @@ public class ReforgingTableBlock extends Block {
 
         PrefixApplier.apply(stack, prefix);
         Prefixes.playReforgeSound(level, pos, prefix);
+        player.awardStat(PrefixStats.ITEMS_REFORGED);
 
         if (!player.isCreative()) {
             player.giveExperienceLevels(-1);

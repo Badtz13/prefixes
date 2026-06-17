@@ -1,5 +1,8 @@
 {
     "block.prefixes.reforging_table": "Reforging Table",
+    "stat.prefixes.items_reforged": "Items Reforged",
+    "tag.item.prefixes.weapons": "Prefixable Weapons",
+    "tag.item.prefixes.tools": "Prefixable Tools",
     "prefixes.weapon.legendary": "Legendary",
     "prefixes.weapon.savage": "Savage",
     "prefixes.weapon.dangerous": "Dangerous",
@@ -25,7 +28,5 @@
     "prefixes.tool.nimble": "Nimble",
     "prefixes.tool.quick": "Quick",
     "prefixes.tool.slow": "Slow",
-    "prefixes.tool.sluggish": "Sluggish",
-    "tag.item.prefixes.weapons": "Prefixable Weapons",
-    "tag.item.prefixes.tools": "Prefixable Tools"
+    "prefixes.tool.sluggish": "Sluggish"
 }
