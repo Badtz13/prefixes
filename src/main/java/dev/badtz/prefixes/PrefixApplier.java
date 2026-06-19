@@ -86,6 +86,22 @@ public final class PrefixApplier {
         return true;
     }
 
+    public static Optional<PrefixManager.PrefixSound> getHitSound(ItemStack stack) {
+        Identifier prefixId = stack.get(Prefixes.PREFIX);
+
+        if (prefixId == null) {
+            return Optional.empty();
+        }
+
+        PrefixManager.PrefixDefinition prefix = PrefixManager.get(prefixId);
+
+        if (prefix == null || prefix.sound() == null) {
+            return Optional.empty();
+        }
+
+        return Optional.of(prefix.sound());
+    }
+
     private static boolean hasPlayerCustomName(ItemStack stack,
             PrefixManager.PrefixDefinition oldPrefix) {
         Component customName = stack.get(DataComponents.CUSTOM_NAME);

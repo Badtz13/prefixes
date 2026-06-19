@@ -41,17 +41,18 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
 
         for (PrefixDefinition prefix : weapons.values()) {
             Prefixes.LOGGER.info(
-                    "Weapon prefix loaded: id={}, key={}, tier={}, weight={}, modifiers={}",
+                    "Weapon prefix loaded: id={}, key={}, tier={}, weight={}, sound={}, modifiers={}",
                     prefix.id(), prefix.translationKey(), prefix.tier(), prefix.weight(),
-                    prefix.modifiers().size());
+                    prefix.sound(), prefix.modifiers().size());
         }
 
         for (PrefixDefinition prefix : tools.values()) {
             Prefixes.LOGGER.info(
-                    "Tool prefix loaded: id={}, key={}, tier={}, weight={}, modifiers={}",
+                    "Tool prefix loaded: id={}, key={}, tier={}, weight={}, sound={}, modifiers={}",
                     prefix.id(), prefix.translationKey(), prefix.tier(), prefix.weight(),
-                    prefix.modifiers().size());
+                    prefix.sound(), prefix.modifiers().size());
         }
+        Prefixes.LOGGER.info("PREFIX RELOAD APPLIED");
     }
 
     public static PrefixDefinition get(Identifier id) {
@@ -142,19 +143,43 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
 
                         int weight = json.has("weight") ? json.get("weight").getAsInt() : 10;
                         int tier = parseTier(json);
+                        PrefixSound sound = parseSound(json);
                         List<PrefixModifier> modifiers = parseModifiers(json);
 
                         String translationKey = "%s.%s.%s".formatted(Prefixes.MOD_ID,
                                 type.translationPart, name.replace('/', '.'));
 
                         loaded.put(id, new PrefixDefinition(id, type, weight, translationKey, tier,
-                                modifiers));
+                                sound, modifiers));
                     } catch (Exception e) {
                         Prefixes.LOGGER.error("Failed to load prefix {}", resourceId, e);
                     }
                 });
 
         return Collections.unmodifiableMap(loaded);
+    }
+
+    private static PrefixSound parseSound(JsonObject json) {
+        if (!json.has("sound") || !json.get("sound").isJsonObject()) {
+            return null;
+        }
+
+        JsonObject soundJson = json.getAsJsonObject("sound");
+
+        if (!soundJson.has("id")) {
+            return null;
+        }
+
+        Identifier id = Identifier.tryParse(soundJson.get("id").getAsString());
+
+        if (id == null) {
+            return null;
+        }
+
+        float volume = soundJson.has("volume") ? soundJson.get("volume").getAsFloat() : 1.0F;
+        float pitch = soundJson.has("pitch") ? soundJson.get("pitch").getAsFloat() : 1.0F;
+
+        return new PrefixSound(id, volume, pitch);
     }
 
     private static int parseTier(JsonObject json) {
@@ -211,7 +236,10 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
     }
 
     public record PrefixDefinition(Identifier id, PrefixType type, int weight,
-            String translationKey, int tier, List<PrefixModifier> modifiers) {
+            String translationKey, int tier, PrefixSound sound, List<PrefixModifier> modifiers) {
+    }
+
+    public record PrefixSound(Identifier id, float volume, float pitch) {
     }
 
     public record PrefixModifier(String attribute, String operation, double amount) {

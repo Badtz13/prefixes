@@ -97,7 +97,7 @@ public class Prefixes implements ModInitializer {
 											return 0;
 										}
 
-										PrefixApplier.apply(stack, prefix);
+										PrefixApplier.apply(stack, prefix, player);
 
 										String message =
 												"Set prefix to " + commandType(prefix.type()) + ":"
