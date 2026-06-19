@@ -1,6 +1,11 @@
 {
     "weight": 12,
     "tier": 1,
+    "sound": {
+        "id": "prefixes:reforge",
+        "volume": 0.3,
+        "pitch": 1.25
+    },
     "modifiers": [
         {
             "attribute": "minecraft:block_break_speed",

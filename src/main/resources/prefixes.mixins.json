@@ -6,7 +6,8 @@
 		"ResultSlotMixin",
 		"MerchantResultSlotMixin",
 		"CrafterBlockMixin",
-		"PlayerMixin"
+		"PlayerMixin",
+		"ServerPlayerGameModeMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
