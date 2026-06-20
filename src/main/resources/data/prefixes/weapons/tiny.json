@@ -2,7 +2,7 @@
     "weight": 3,
     "tier": -1,
     "sound": {
-        "id": "prefixes:reforge",
+        "id": "prefixes:tiny",
         "volume": 0.5,
         "pitch": 1.25
     },

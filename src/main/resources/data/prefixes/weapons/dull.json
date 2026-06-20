@@ -1,6 +1,11 @@
 {
     "weight": 8,
     "tier": -1,
+    "sound": {
+        "id": "prefixes:dull",
+        "volume": 1.0,
+        "pitch": 1
+    },
     "modifiers": [
         {
             "attribute": "minecraft:attack_damage",

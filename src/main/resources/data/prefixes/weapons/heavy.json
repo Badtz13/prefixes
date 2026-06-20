@@ -1,6 +1,11 @@
 {
     "weight": 5,
     "tier": 0,
+    "sound": {
+        "id": "prefixes:heavy",
+        "volume": 1.0,
+        "pitch": 1
+    },
     "modifiers": [
         {
             "attribute": "minecraft:attack_speed",
