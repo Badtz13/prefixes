@@ -2,9 +2,9 @@
     "weight": 1,
     "tier": 2,
     "sound": {
-        "id": "minecraft:block.amethyst_block.break",
-        "volume": 2.0,
-        "pitch": 1.25
+        "id": "prefixes:legendary",
+        "volume": 1.0,
+        "pitch": 1
     },
     "modifiers": [
         {

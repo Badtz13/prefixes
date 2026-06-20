@@ -1,6 +1,11 @@
 {
     "weight": 5,
     "tier": 1,
+    "sound": {
+        "id": "prefixes:large",
+        "volume": 1.0,
+        "pitch": 1
+    },
     "modifiers": [
         {
             "attribute": "minecraft:entity_interaction_range",

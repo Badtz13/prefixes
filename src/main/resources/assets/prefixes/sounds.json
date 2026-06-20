@@ -2,5 +2,69 @@
   "reforge": {
     "subtitle": "sound.prefixes.reforge",
     "sounds": ["prefixes:reforge"]
+  },
+  "bulky": {
+    "subtitle": "sound.prefixes.bulky",
+    "sounds": ["prefixes:bulky"]
+  },
+  "dangerous": {
+    "subtitle": "sound.prefixes.dangerous",
+    "sounds": ["prefixes:dangerous"]
+  },
+  "dull": {
+    "subtitle": "sound.prefixes.dull",
+    "sounds": ["prefixes:dull"]
+  },
+  "heavy": {
+    "subtitle": "sound.prefixes.heavy",
+    "sounds": ["prefixes:heavy"]
+  },
+  "large": {
+    "subtitle": "sound.prefixes.large",
+    "sounds": ["prefixes:large"]
+  },
+  "legendary": {
+    "subtitle": "sound.prefixes.legendary",
+    "sounds": ["prefixes:legendary"]
+  },
+  "light": {
+    "subtitle": "sound.prefixes.light",
+    "sounds": ["prefixes:light"]
+  },
+  "massive": {
+    "subtitle": "sound.prefixes.massive",
+    "sounds": ["prefixes:massive"]
+  },
+  "pointy": {
+    "subtitle": "sound.prefixes.pointy",
+    "sounds": ["prefixes:pointy"]
+  },
+  "savage": {
+    "subtitle": "sound.prefixes.savage",
+    "sounds": ["prefixes:savage"]
+  },
+  "sharp": {
+    "subtitle": "sound.prefixes.sharp",
+    "sounds": ["prefixes:sharp"]
+  },
+  "small": {
+    "subtitle": "sound.prefixes.small",
+    "sounds": ["prefixes:small"]
+  },
+  "tiny": {
+    "subtitle": "sound.prefixes.tiny",
+    "sounds": ["prefixes:tiny"]
+  },
+  "shameful": {
+    "subtitle": "sound.prefixes.shameful",
+    "sounds": ["prefixes:shameful"]
+  },
+  "unhappy": {
+    "subtitle": "sound.prefixes.unhappy",
+    "sounds": ["prefixes:unhappy"]
+  },
+  "terrible": {
+    "subtitle": "sound.prefixes.terrible",
+    "sounds": ["prefixes:terrible"]
   }
 }
