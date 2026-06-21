@@ -25,6 +25,16 @@ public class PrefixSounds {
     public static final SoundEvent P_TINY = registerSound("tiny");
     public static final SoundEvent PUNHAPPY = registerSound("unhappy");
 
+    public static final SoundEvent T_AGILE = registerSound("agile");
+    public static final SoundEvent T_CLUMSY = registerSound("clumsy");
+    public static final SoundEvent T_EFFICIENT = registerSound("efficient");
+    public static final SoundEvent T_LAZY = registerSound("lazy");
+    public static final SoundEvent T_LUCKY = registerSound("lucky");
+    public static final SoundEvent T_NIMBLE = registerSound("nimble");
+    public static final SoundEvent T_QUICK = registerSound("quick");
+    public static final SoundEvent T_SLOW = registerSound("slow");
+    public static final SoundEvent T_SLUGGISH = registerSound("sluggish");
+
     private static SoundEvent registerSound(String id) {
         Identifier identifier = Identifier.fromNamespaceAndPath(Prefixes.MOD_ID, id);
         return Registry.register(BuiltInRegistries.SOUND_EVENT, identifier,

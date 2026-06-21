@@ -1,3 +1,4 @@
+//all layton
 package dev.badtz.prefixes.mixin;
 
 import org.spongepowered.asm.mixin.Mixin;
@@ -17,6 +18,8 @@ import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.server.level.ServerPlayerGameMode;
 import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.level.block.SoundType;
+import net.minecraft.world.level.block.state.BlockState;
 
 @Mixin(ServerPlayerGameMode.class)
 public abstract class ServerPlayerGameModeMixin {
@@ -47,17 +50,34 @@ public abstract class ServerPlayerGameModeMixin {
 
         ItemStack stack = player.getMainHandItem();
 
-        PrefixApplier.getPrefix(stack).ifPresent(prefix -> {
+        /*PrefixApplier.getPrefix(stack).ifPresent(prefix -> {
             if (prefix.type() != PrefixManager.PrefixType.TOOL) {
                 return;
             }
-
+            
+            BlockState state = player.level().getBlockState(pos);
             PrefixApplier.getHitSound(stack).ifPresent(
                     sound -> BuiltInRegistries.SOUND_EVENT.get(sound.id()).ifPresent(soundEvent -> {
                         prefixes$lastMiningSoundTick = tick;
                         level.playSound(null, pos, soundEvent.value(), SoundSource.PLAYERS,
                                 sound.volume(), sound.pitch());
                     }));
-        });
+        });*/
+        /*
+        PrefixApplier.getPrefix(stack).ifPresent(prefix -> {
+                if (prefix.type() != PrefixManager.PrefixType.TOOL) {
+                    return;
+                }
+
+                PrefixApplier.getHitSound(stack).ifPresent(
+                    sound -> BuiltInRegistries.SOUND_EVENT.get(sound.id()).ifPresent(soundEvent -> {
+                        BlockState state = player.level().getBlockState(pos);
+                        SoundType type = state.getSoundType();
+
+                        prefixes$lastMiningSoundTick = tick;
+                        level.playSound(null, pos, soundEvent.value(), SoundSource.PLAYERS,
+                                (type.getVolume() + 1.0F) / 8.0F, type.getPitch() * 0.5F);
+                    }));
+        });*/
     }
 }

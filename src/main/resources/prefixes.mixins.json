@@ -9,6 +9,8 @@
 		"PlayerMixin",
 		"ServerPlayerGameModeMixin"
 	],
+	"client": [
+	],
 	"injectors": {
 		"defaultRequire": 1
 	},

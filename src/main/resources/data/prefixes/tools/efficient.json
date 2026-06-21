@@ -1,6 +1,11 @@
 {
     "weight": 5,
     "tier": 2,
+    "sound": {
+        "id": "prefixes:efficient",
+        "volume": 1.0,
+        "pitch": 1
+    },
     "modifiers": [
         {
             "attribute": "minecraft:mining_efficiency",

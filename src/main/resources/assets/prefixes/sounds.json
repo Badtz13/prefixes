@@ -66,5 +66,41 @@
   "terrible": {
     "subtitle": "sound.prefixes.terrible",
     "sounds": ["prefixes:terrible"]
+  },
+  "agile": {
+    "subtitle": "sound.prefixes.agile",
+    "sounds": ["prefixes:agile"]
+  },
+  "clumsy": {
+    "subtitle": "sound.prefixes.clumsy",
+    "sounds": ["prefixes:clumsy"]
+  },
+  "efficient": {
+    "subtitle": "sound.prefixes.efficient",
+    "sounds": ["prefixes:efficient"]
+  },
+  "lazy": {
+    "subtitle": "sound.prefixes.lazy",
+    "sounds": ["prefixes:lazy"]
+  },
+  "lucky": {
+    "subtitle": "sound.prefixes.lucky",
+    "sounds": ["prefixes:lucky"]
+  },
+  "nimble": {
+    "subtitle": "sound.prefixes.nimble",
+    "sounds": ["prefixes:nimble"]
+  },
+  "quick": {
+    "subtitle": "sound.prefixes.quick",
+    "sounds": ["prefixes:quick"]
+  },
+  "slow": {
+    "subtitle": "sound.prefixes.slow",
+    "sounds": ["prefixes:slow"]
+  },
+  "sluggish": {
+    "subtitle": "sound.prefixes.sluggish",
+    "sounds": ["prefixes:sluggish"]
   }
 }

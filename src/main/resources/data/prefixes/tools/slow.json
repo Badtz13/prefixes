@@ -1,6 +1,11 @@
 {
     "weight": 12,
     "tier": -1,
+    "sound": {
+        "id": "prefixes:slow",
+        "volume": 1.0,
+        "pitch": 1
+    },
     "modifiers": [
         {
             "attribute": "minecraft:block_break_speed",

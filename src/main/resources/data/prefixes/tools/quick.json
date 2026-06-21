@@ -2,9 +2,9 @@
     "weight": 12,
     "tier": 1,
     "sound": {
-        "id": "prefixes:reforge",
-        "volume": 0.3,
-        "pitch": 1.25
+        "id": "prefixes:quick",
+        "volume": 1.0,
+        "pitch": 1
     },
     "modifiers": [
         {
