@@ -3,7 +3,7 @@
     "tier": -1,
     "sound": {
         "id": "prefixes:lazy",
-        "volume": 1.0,
+        "volume": 0.9,
         "pitch": 1
     },
     "modifiers": [
