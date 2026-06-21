@@ -102,7 +102,8 @@ public final class PrefixApplier {
     }
 
     public static Optional<PrefixManager.PrefixSound> getHitSound(ItemStack stack) {
-        return getPrefix(stack).map(PrefixManager.PrefixDefinition::sound);
+        return getPrefix(stack).map(PrefixManager.PrefixDefinition::sound)
+                .filter(sound -> sound != null);
     }
 
     private static boolean hasPlayerCustomName(ItemStack stack,

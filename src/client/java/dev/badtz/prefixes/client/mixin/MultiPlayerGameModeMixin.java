@@ -43,8 +43,9 @@ public class MultiPlayerGameModeMixin {
                             .ifPresent(soundEvent -> minecraft.getSoundManager()
                                     .play(new SimpleSoundInstance(soundEvent.value(),
                                             SoundSource.PLAYERS,
-                                            (soundType.getVolume() + 1.0F) / 6.0F,
-                                            soundType.getPitch(),
+                                            ((soundType.getVolume() + 1.0F) / 6.0F)
+                                                    * sound.volume(),
+                                            soundType.getPitch() * sound.pitch(),
                                             SoundInstance.createUnseededRandom(), pos))));
         });
     }
