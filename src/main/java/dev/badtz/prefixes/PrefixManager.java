@@ -146,8 +146,8 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
                         String path = resourceId.getPath();
                         String name = path.substring(folder.length() + 1,
                                 path.length() - ".json".length());
-                        Identifier id =
-                                Identifier.fromNamespaceAndPath(resourceId.getNamespace(), name);
+                        Identifier id = Identifier.fromNamespaceAndPath(resourceId.getNamespace(),
+                                folder + "/" + name);
 
                         int weight = json.has("weight") ? json.get("weight").getAsInt() : 10;
                         int tier = parseTier(json);

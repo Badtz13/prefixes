@@ -23,7 +23,7 @@ public class PrefixSounds {
     public static final SoundEvent P_SMALL = registerSound("small");
     public static final SoundEvent P_TERRIBLE = registerSound("terrible");
     public static final SoundEvent P_TINY = registerSound("tiny");
-    public static final SoundEvent PUNHAPPY = registerSound("unhappy");
+    public static final SoundEvent P_UNHAPPY = registerSound("unhappy");
 
     public static final SoundEvent T_AGILE = registerSound("agile");
     public static final SoundEvent T_CLUMSY = registerSound("clumsy");
