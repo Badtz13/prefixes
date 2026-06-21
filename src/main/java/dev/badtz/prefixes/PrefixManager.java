@@ -75,15 +75,23 @@ public final class PrefixManager extends SimpleReloadListener<PrefixManager.Prep
     }
 
     public static PrefixDefinition getRandomApplicablePrefix(ItemStack stack, RandomSource random) {
-        if (PrefixTags.isWeapon(stack)) {
+        boolean weapon = PrefixTags.isWeapon(stack);
+        boolean tool = PrefixTags.isTool(stack);
+
+        if (!weapon && !tool) {
+            return null;
+        }
+
+        if (weapon && tool) {
+            return random.nextBoolean() ? getRandom(PrefixType.WEAPON, random)
+                    : getRandom(PrefixType.TOOL, random);
+        }
+
+        if (weapon) {
             return getRandom(PrefixType.WEAPON, random);
         }
 
-        if (PrefixTags.isTool(stack)) {
-            return getRandom(PrefixType.TOOL, random);
-        }
-
-        return null;
+        return getRandom(PrefixType.TOOL, random);
     }
 
     private static PrefixDefinition getWeightedRandom(List<PrefixDefinition> pool,

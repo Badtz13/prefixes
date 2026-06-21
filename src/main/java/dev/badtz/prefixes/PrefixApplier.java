@@ -66,16 +66,21 @@ public final class PrefixApplier {
     }
 
     public static boolean applyRandom(ItemStack stack, net.minecraft.util.RandomSource random) {
-        PrefixManager.PrefixType type;
+        List<PrefixManager.PrefixType> types = new ArrayList<>();
 
         if (PrefixTags.isWeapon(stack)) {
-            type = PrefixManager.PrefixType.WEAPON;
-        } else if (PrefixTags.isTool(stack)) {
-            type = PrefixManager.PrefixType.TOOL;
-        } else {
+            types.add(PrefixManager.PrefixType.WEAPON);
+        }
+
+        if (PrefixTags.isTool(stack)) {
+            types.add(PrefixManager.PrefixType.TOOL);
+        }
+
+        if (types.isEmpty()) {
             return false;
         }
 
+        PrefixManager.PrefixType type = types.get(random.nextInt(types.size()));
         PrefixManager.PrefixDefinition prefix = PrefixManager.getRandom(type, random);
 
         if (prefix == null) {
