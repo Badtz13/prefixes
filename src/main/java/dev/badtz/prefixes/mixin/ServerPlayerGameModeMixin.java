@@ -7,7 +7,7 @@ import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import dev.badtz.prefixes.PrefixApplier;
-import dev.badtz.prefixes.PrefixTags;
+import dev.badtz.prefixes.PrefixManager;
 import net.minecraft.core.BlockPos;
 import net.minecraft.core.Direction;
 import net.minecraft.core.registries.BuiltInRegistries;
@@ -47,15 +47,17 @@ public abstract class ServerPlayerGameModeMixin {
 
         ItemStack stack = player.getMainHandItem();
 
-        if (!PrefixTags.isTool(stack)) {
-            return;
-        }
+        PrefixApplier.getPrefix(stack).ifPresent(prefix -> {
+            if (prefix.type() != PrefixManager.PrefixType.TOOL) {
+                return;
+            }
 
-        PrefixApplier.getHitSound(stack).ifPresent(
-                sound -> BuiltInRegistries.SOUND_EVENT.get(sound.id()).ifPresent(soundEvent -> {
-                    prefixes$lastMiningSoundTick = tick;
-                    level.playSound(null, pos, soundEvent.value(), SoundSource.PLAYERS,
-                            sound.volume(), sound.pitch());
-                }));
+            PrefixApplier.getHitSound(stack).ifPresent(
+                    sound -> BuiltInRegistries.SOUND_EVENT.get(sound.id()).ifPresent(soundEvent -> {
+                        prefixes$lastMiningSoundTick = tick;
+                        level.playSound(null, pos, soundEvent.value(), SoundSource.PLAYERS,
+                                sound.volume(), sound.pitch());
+                    }));
+        });
     }
 }
