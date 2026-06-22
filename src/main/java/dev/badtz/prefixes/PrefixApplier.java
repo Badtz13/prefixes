@@ -91,6 +91,15 @@ public final class PrefixApplier {
         return true;
     }
 
+    public static boolean applyRandomIfNeeded(ItemStack stack,
+            net.minecraft.util.RandomSource random) {
+        if (stack.isEmpty() || stack.has(Prefixes.PREFIX) || !isPrefixable(stack)) {
+            return false;
+        }
+
+        return applyRandom(stack, random);
+    }
+
     public static Optional<PrefixManager.PrefixDefinition> getPrefix(ItemStack stack) {
         Identifier prefixId = stack.get(Prefixes.PREFIX);
 
