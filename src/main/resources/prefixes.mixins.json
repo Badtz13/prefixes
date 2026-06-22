@@ -9,7 +9,9 @@
 		"CrafterBlockMixin",
 		"PlayerMixin",
 		"AbstractContainerMenuAccessor",
-		"InventoryMenuMixin"
+		"InventoryMenuMixin",
+		"PiercingWeaponMixin",
+		"KineticWeaponMixin"
 	],
 	"client": [],
 	"injectors": {
