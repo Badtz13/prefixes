@@ -75,7 +75,7 @@
     },
     "textures": {
         "0": "prefixes:block/reforging_table",
-        "particle": "prefixes:block/reforging_table"
+        "particle": "minecraft:block/mangrove_planks"
     },
     "elements": [
         {
