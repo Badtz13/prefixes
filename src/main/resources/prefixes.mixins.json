@@ -8,7 +8,8 @@
 		"MerchantResultSlotMixin",
 		"CrafterBlockMixin",
 		"PlayerMixin",
-		"AbstractContainerMenuAccessor"
+		"AbstractContainerMenuAccessor",
+		"InventoryMenuMixin"
 	],
 	"client": [],
 	"injectors": {
