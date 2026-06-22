@@ -95,7 +95,7 @@ modrinth {
     projectId = "prefixes"
     versionNumber = project.version.toString()
     versionName = "Prefixes ${project.version}"
-    versionType = "alpha"
+    versionType = "release"
     uploadFile = jar
     gameVersions = [project.minecraft_version]
     loaders = ["fabric"]

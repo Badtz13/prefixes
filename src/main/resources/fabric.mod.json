@@ -2,7 +2,7 @@
 	"schemaVersion": 1,
 	"id": "prefixes",
 	"version": "${version}",
-	"name": "prefixes",
+	"name": "Prefixes",
 	"description": "prefixes for tools and weapons with a fun reforging mechanic",
 	"authors": [
 		"kamo.moe, chromadeline"
