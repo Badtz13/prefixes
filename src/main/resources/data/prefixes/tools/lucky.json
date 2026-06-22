@@ -3,7 +3,7 @@
     "tier": 1,
     "sound": {
         "id": "prefixes:lucky",
-        "volume": 0.85,
+        "volume": 0.75,
         "pitch": 1
     },
     "modifiers": [

@@ -3,7 +3,7 @@
     "tier": -1,
     "sound": {
         "id": "prefixes:clumsy",
-        "volume": 0.85,
+        "volume": 0.7,
         "pitch": 1
     },
     "modifiers": [
