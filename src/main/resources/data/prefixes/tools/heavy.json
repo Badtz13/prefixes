@@ -3,7 +3,7 @@
     "tier": 0,
     "sound": {
         "id": "prefixes:heavy",
-        "volume": 1.0,
+        "volume": 0.9,
         "pitch": 1
     },
     "modifiers": [
