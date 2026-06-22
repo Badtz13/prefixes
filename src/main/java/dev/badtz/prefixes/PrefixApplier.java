@@ -8,7 +8,10 @@ import net.minecraft.core.component.DataComponents;
 import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.network.chat.Component;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
+import net.minecraft.sounds.SoundSource;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
 import net.minecraft.world.entity.ai.attributes.AttributeModifier;
@@ -113,6 +116,13 @@ public final class PrefixApplier {
     public static Optional<PrefixManager.PrefixSound> getHitSound(ItemStack stack) {
         return getPrefix(stack).map(PrefixManager.PrefixDefinition::sound)
                 .filter(sound -> sound != null);
+    }
+
+    public static void playHitSound(ServerLevel level, Entity target, ItemStack stack) {
+        getHitSound(stack).ifPresent(sound -> BuiltInRegistries.SOUND_EVENT.get(sound.id())
+                .ifPresent(soundEvent -> level.playSound(null, target.getX(), target.getY(),
+                        target.getZ(), soundEvent.value(), SoundSource.PLAYERS, sound.volume(),
+                        sound.pitch())));
     }
 
     private static boolean hasPlayerCustomName(ItemStack stack,

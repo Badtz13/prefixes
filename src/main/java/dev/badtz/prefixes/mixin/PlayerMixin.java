@@ -6,9 +6,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
 import dev.badtz.prefixes.PrefixApplier;
 import dev.badtz.prefixes.PrefixManager;
-import net.minecraft.core.registries.BuiltInRegistries;
 import net.minecraft.server.level.ServerLevel;
-import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.player.Player;
 import net.minecraft.world.item.ItemStack;
@@ -30,11 +28,7 @@ public abstract class PlayerMixin {
                 return;
             }
 
-            PrefixApplier.getHitSound(stack)
-                    .ifPresent(sound -> BuiltInRegistries.SOUND_EVENT.get(sound.id())
-                            .ifPresent(soundEvent -> level.playSound(null, target.getX(),
-                                    target.getY(), target.getZ(), soundEvent.value(),
-                                    SoundSource.PLAYERS, sound.volume(), sound.pitch())));
+            PrefixApplier.playHitSound(level, target, stack);
         });
     }
 }
