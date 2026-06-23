@@ -1,0 +1,37 @@
+{
+    "parent": "minecraft:adventure/root",
+    "display": {
+        "icon": {
+            "id": "minecraft:diamond_sword"
+        },
+        "title": {
+            "translate": "advancements.prefixes.break_legendary_item.title"
+        },
+        "description": {
+            "translate": "advancements.prefixes.break_legendary_item.description"
+        },
+        "frame": "challenge",
+        "show_toast": false,
+        "announce_to_chat": false,
+        "hidden": true
+    },
+    "criteria": {
+        "break_legendary": {
+            "trigger": "minecraft:item_durability_changed",
+            "conditions": {
+                "item": {
+                    "components": {
+                        "prefixes:prefix": "prefixes:weapons/legendary"
+                    }
+                },
+                "durability": 0
+            }
+        }
+    },
+    "requirements": [
+        [
+            "break_legendary"
+        ]
+    ],
+    "sends_telemetry_event": false
+}
