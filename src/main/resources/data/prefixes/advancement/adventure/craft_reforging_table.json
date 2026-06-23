@@ -1,0 +1,32 @@
+{
+    "parent": "minecraft:adventure/root",
+    "display": {
+        "icon": {
+            "id": "prefixes:reforging_table"
+        },
+        "title": {
+            "translate": "advancements.prefixes.craft_reforging_table.title"
+        },
+        "description": {
+            "translate": "advancements.prefixes.craft_reforging_table.description"
+        },
+        "frame": "task",
+        "show_toast": true,
+        "announce_to_chat": false,
+        "hidden": false
+    },
+    "criteria": {
+        "crafted_reforging_table": {
+            "trigger": "minecraft:recipe_crafted",
+            "conditions": {
+                "recipe_id": "prefixes:reforging_table"
+            }
+        }
+    },
+    "requirements": [
+        [
+            "crafted_reforging_table"
+        ]
+    ],
+    "sends_telemetry_event": false
+}
