@@ -10,14 +10,18 @@ import net.minecraft.sounds.SoundSource;
 import net.minecraft.world.item.ItemStack;
 
 public final class PrefixClientSounds {
-    private PrefixClientSounds() {}
+        private PrefixClientSounds() {}
 
-    public static void playMiningSound(Minecraft minecraft, BlockPos pos, ItemStack stack) {
-        PrefixApplier.getHitSound(stack)
-                .ifPresent(sound -> BuiltInRegistries.SOUND_EVENT.get(sound.id())
-                        .ifPresent(soundEvent -> minecraft.getSoundManager()
-                                .play(new SimpleSoundInstance(soundEvent.value(),
-                                        SoundSource.PLAYERS, sound.volume(), sound.pitch(),
-                                        SoundInstance.createUnseededRandom(), pos))));
-    }
+        public static void playMiningSound(Minecraft minecraft, BlockPos pos, ItemStack stack) {
+                PrefixApplier.getHitSound(stack).ifPresent(sound -> BuiltInRegistries.SOUND_EVENT
+                                .get(sound.id()).ifPresent(soundEvent -> {
+                                        float pitch = sound.pitch() * PrefixApplier.getRandomPitch(
+                                                        minecraft.level.getRandom());
+
+                                        minecraft.getSoundManager().play(new SimpleSoundInstance(
+                                                        soundEvent.value(), SoundSource.PLAYERS,
+                                                        sound.volume(), pitch,
+                                                        SoundInstance.createUnseededRandom(), pos));
+                                }));
+        }
 }
