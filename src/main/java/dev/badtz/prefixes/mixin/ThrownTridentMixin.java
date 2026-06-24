@@ -5,18 +5,23 @@ import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
+import dev.badtz.prefixes.PrefixApplier;
+import dev.badtz.prefixes.PrefixManager;
 import dev.badtz.prefixes.PrefixTrackedProjectile;
 import dev.badtz.prefixes.Prefixes;
 import net.minecraft.network.syncher.EntityDataAccessor;
 import net.minecraft.network.syncher.EntityDataSerializers;
 import net.minecraft.network.syncher.SynchedEntityData;
 import net.minecraft.resources.Identifier;
+import net.minecraft.server.level.ServerLevel;
+import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EntityType;
 import net.minecraft.world.entity.LivingEntity;
 import net.minecraft.world.entity.projectile.arrow.AbstractArrow;
 import net.minecraft.world.entity.projectile.arrow.ThrownTrident;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.Level;
+import net.minecraft.world.phys.EntityHitResult;
 
 @Mixin(ThrownTrident.class)
 public abstract class ThrownTridentMixin extends AbstractArrow implements PrefixTrackedProjectile {
@@ -45,6 +50,24 @@ public abstract class ThrownTridentMixin extends AbstractArrow implements Prefix
     private void prefixes$initPosition(Level level, double x, double y, double z,
             ItemStack tridentItem, CallbackInfo ci) {
         this.prefixes$setPrefixId(tridentItem.get(Prefixes.PREFIX));
+    }
+
+    @Inject(method = "onHitEntity", at = @At("HEAD"))
+    private void prefixes$playPrefixHitSound(EntityHitResult hitResult, CallbackInfo ci) {
+        if (!(this.level() instanceof ServerLevel level)) {
+            return;
+        }
+
+        Entity target = hitResult.getEntity();
+        ItemStack stack = this.getWeaponItem();
+
+        PrefixApplier.getPrefix(stack).ifPresent(prefix -> {
+            if (prefix.type() != PrefixManager.PrefixType.WEAPON) {
+                return;
+            }
+
+            PrefixApplier.playHitSound(level, target, stack);
+        });
     }
 
     @Override
