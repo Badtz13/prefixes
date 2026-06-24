@@ -11,7 +11,8 @@
 		"AbstractContainerMenuAccessor",
 		"InventoryMenuMixin",
 		"PiercingWeaponMixin",
-		"KineticWeaponMixin"
+		"KineticWeaponMixin",
+		"ThrownTridentMixin"
 	],
 	"client": [],
 	"injectors": {

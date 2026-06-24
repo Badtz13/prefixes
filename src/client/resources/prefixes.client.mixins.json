@@ -5,7 +5,9 @@
 	"client": [
 		"ItemModelResolverMixin",
 		"ItemStackRenderStateMixin",
-		"MultiPlayerGameModeMixin"
+		"MultiPlayerGameModeMixin",
+		"ThrownTridentRendererMixin",
+		"ThrownTridentRenderStateMixin"
 	],
 	"injectors": {
 		"defaultRequire": 1
