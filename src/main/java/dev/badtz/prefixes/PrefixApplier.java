@@ -11,6 +11,7 @@ import net.minecraft.resources.Identifier;
 import net.minecraft.server.level.ServerLevel;
 import net.minecraft.server.level.ServerPlayer;
 import net.minecraft.sounds.SoundSource;
+import net.minecraft.util.RandomSource;
 import net.minecraft.world.entity.Entity;
 import net.minecraft.world.entity.EquipmentSlotGroup;
 import net.minecraft.world.entity.ai.attributes.Attribute;
@@ -118,11 +119,18 @@ public final class PrefixApplier {
                 .filter(sound -> sound != null);
     }
 
+    public static float getRandomPitch(RandomSource random) {
+        return 0.85F + random.nextFloat() * 0.30F;
+    }
+
     public static void playHitSound(ServerLevel level, Entity target, ItemStack stack) {
-        getHitSound(stack).ifPresent(sound -> BuiltInRegistries.SOUND_EVENT.get(sound.id())
-                .ifPresent(soundEvent -> level.playSound(null, target.getX(), target.getY(),
-                        target.getZ(), soundEvent.value(), SoundSource.PLAYERS, sound.volume(),
-                        sound.pitch())));
+        getHitSound(stack).ifPresent(
+                sound -> BuiltInRegistries.SOUND_EVENT.get(sound.id()).ifPresent(soundEvent -> {
+                    float pitch = sound.pitch() * getRandomPitch(level.getRandom());
+
+                    level.playSound(null, target.getX(), target.getY(), target.getZ(),
+                            soundEvent.value(), SoundSource.PLAYERS, sound.volume(), pitch);
+                }));
     }
 
     private static boolean hasPlayerCustomName(ItemStack stack,
