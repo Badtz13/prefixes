@@ -1,10 +1,11 @@
 package dev.badtz.prefixes.loot;
 
-import java.util.List;
+import java.util.Optional;
 import com.mojang.serialization.MapCodec;
 import com.mojang.serialization.codecs.RecordCodecBuilder;
 import dev.badtz.prefixes.PrefixApplier;
 import dev.badtz.prefixes.Prefixes;
+import net.minecraft.core.Holder;
 import net.minecraft.world.item.ItemStack;
 import net.minecraft.world.level.storage.loot.LootContext;
 import net.minecraft.world.level.storage.loot.functions.LootItemConditionalFunction;
@@ -15,8 +16,8 @@ public class ApplyRandomPrefixLootFunction extends LootItemConditionalFunction {
             RecordCodecBuilder.mapCodec(instance -> commonFields(instance).apply(instance,
                     ApplyRandomPrefixLootFunction::new));
 
-    private ApplyRandomPrefixLootFunction(List<LootItemCondition> conditions) {
-        super(conditions);
+    private ApplyRandomPrefixLootFunction(Optional<Holder<LootItemCondition>> condition) {
+        super(condition);
     }
 
     @Override
